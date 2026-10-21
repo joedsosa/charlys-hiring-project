@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Prototype of an AI-assisted mass hiring platform: candidate, client and admin portals.">
+  <title>Hiring platform prototype</title>
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script>
+    try { var t = localStorage.getItem('hireflow-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+  </script>
+</head>
+<body data-page="home">
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">Mass hiring, powered by AI</span>
+          <h1>Screen hundreds of applicants. Approve the right ones in minutes.</h1>
+          <p class="lead"><span data-brand></span> collects applications with CV, voice note and a short role-play, scores every
+            candidate with AI and gives your team a clear pipeline to approve, decline and deliver shortlists to clients.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-lg" href="#demo">Run the 2-minute demo</a>
+            <a class="btn btn-lg" href="admin.html">Open admin dashboard</a>
+          </div>
+          <div class="stats">
+            <div class="stat"><strong data-stat="positions">–</strong><span>open positions</span></div>
+            <div class="stat"><strong data-stat="candidates">–</strong><span>candidates in pipeline</span></div>
+            <div class="stat"><strong data-stat="score">–</strong><span>avg. AI score</span></div>
+          </div>
+        </div>
+        <div class="hero-preview" aria-hidden="true" id="hero-preview"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>How it works</h2>
+          <p>One flow for every role, configured per position by your team.</p>
+        </div>
+        <div class="steps">
+          <div class="card step"><h3>Client posts a role</h3><p class="muted">Title, requirements, schedule and how many people they need.</p></div>
+          <div class="card step"><h3>Candidates apply</h3><p class="muted">Basic info, CV and a short voice note, from any phone, in minutes.</p></div>
+          <div class="card step"><h3>AI screens everyone</h3><p class="muted">Each applicant gets a score, a 3-line summary and a voice transcript.</p></div>
+          <div class="card step"><h3>Admins decide</h3><p class="muted">Approve or decline from a kanban pipeline. Approved candidates reach the client's shortlist.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Three portals, one platform</h2>
+          <p>Each profile sees exactly what it needs.</p>
+        </div>
+        <div class="grid grid-3">
+          <article class="card portal-card">
+            <div class="icon-tile"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div>
+            <h3>Candidates</h3>
+            <ul><li>Browse and filter open positions</li><li>Apply with CV and a voice note</li><li>Track application status by stage</li></ul>
+            <a class="btn" href="candidate.html">Open candidate portal</a>
+          </article>
+          <article class="card portal-card">
+            <div class="icon-tile"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
+            <h3>Clients</h3>
+            <ul><li>Post positions and headcount</li><li>See an AI-ranked shortlist</li><li>Read summaries, not stacks of CVs</li></ul>
+            <a class="btn" href="client.html">Open client portal</a>
+          </article>
+          <article class="card portal-card">
+            <div class="icon-tile"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div>
+            <h3>Admins</h3>
+            <ul><li>KPIs and hiring funnel</li><li>Kanban pipeline with AI scores</li><li>Approve or decline in one click</li></ul>
+            <a class="btn" href="admin.html">Open admin dashboard</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="demo">
+      <div class="container">
+        <div class="section-head">
+          <h2>Try the full flow in under 2 minutes</h2>
+          <p>Tip: open the admin dashboard in a second tab. New applications appear there live.</p>
+        </div>
+        <ol class="demo-script">
+          <li><span><strong>Post a position</strong> as a client. Use “Fill sample” to go fast.</span><a class="btn btn-sm" href="client.html#post">Client portal</a></li>
+          <li><span><strong>Apply</strong> to that position as a candidate, with a CV and a voice note.</span><a class="btn btn-sm" href="candidate.html">Candidate portal</a></li>
+          <li><span><strong>Watch the AI analysis</strong> run on the new applicant, then review the score and summary.</span><a class="btn btn-sm" href="admin.html#pipeline">Admin pipeline</a></li>
+          <li><span><strong>Approve</strong> the candidate from the detail panel.</span><a class="btn btn-sm" href="admin.html#pipeline">Admin pipeline</a></li>
+          <li><span><strong>See the result</strong>: the client shortlist and the candidate's tracker are updated.</span><a class="btn btn-sm" href="client.html">Client shortlist</a></li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/ai.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/common.js"></script>
+  <script src="assets/js/home.js"></script>
+</body>
+</html>

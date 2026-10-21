@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Client portal</title>
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script>
+    try { var t = localStorage.getItem('hireflow-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+  </script>
+</head>
+<body data-page="client" data-title="Client portal">
+  <main class="container">
+    <div class="page-head row between">
+      <div>
+        <h1>Client portal</h1>
+        <p>Post the roles you need to fill and receive a ranked shortlist of approved candidates.</p>
+      </div>
+      <div class="field" style="min-width:220px">
+        <label for="client-select" class="small">Signed in as (demo)</label>
+        <select id="client-select"></select>
+      </div>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" data-view="positions" aria-selected="true">My positions</button>
+      <button class="tab" role="tab" data-view="post" aria-selected="false">Post a position</button>
+    </div>
+
+    <section id="view-positions"><div class="grid grid-2" id="positions"></div></section>
+    <section id="view-post" class="hidden"></section>
+    <section id="view-shortlist" class="hidden"></section>
+  </main>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/ai.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/common.js"></script>
+  <script src="assets/js/client.js"></script>
+</body>
+</html>
