@@ -6,17 +6,17 @@
   const SAMPLE_POSITION = {
     title: 'Bilingual Call Center Agent',
     category: 'Customer support',
-    location: 'Remote (US)',
+    location: 'Remote · US',
     type: 'Full-time',
     schedule: 'Mon–Fri, 8:00 am – 4:30 pm CT',
     headcount: 30,
     pay: '$18/hr',
-    requirements: ['English (fluent)', 'Spanish (conversational)', 'Customer service', 'CRM tools', 'Typing 40+ wpm'],
-    description: 'Handle inbound customer calls, solve account questions and log every interaction in the CRM.',
+    requirements: ['English (fluent)', 'Spanish (conversational)', 'Customer service', 'CRM tools', 'Stable internet (25+ Mbps)'],
+    description: 'Handle inbound customer calls from home, solve account questions and log every interaction in the CRM.',
     roleplay: 'support',
   };
-  const CATEGORIES = ['Customer support', 'Sales', 'Operations', 'Retail', 'Hospitality', 'Administrative', 'Healthcare'];
-  const ROLEPLAY_LABELS = { support: 'Upset customer (support)', sales: 'Price objection (sales)', operations: 'Safety and teamwork (operations)', hospitality: 'Guest complaint (hospitality)' };
+  const CATEGORIES = ['Customer support', 'Sales', 'IT support', 'Operations', 'Administrative', 'Marketing'];
+  const ROLEPLAY_LABELS = { support: 'Upset customer on a call (support)', sales: 'Price objection (sales)', techsupport: 'Login issue over chat (IT support)', dispatch: 'Late delivery, remote coordination (operations)', assistant: 'Competing urgent tasks (assistant / admin)' };
 
   // ---------- Signed-in client (demo switcher) ----------
   let clientId;
@@ -59,7 +59,7 @@
       return `<article class="card position-card ${p.id === highlightId ? 'is-highlight' : ''}" id="card-${esc(p.id)}">
         <div class="row between"><span class="badge">${esc(p.category)}</span><span class="small muted">Posted ${esc(timeAgo(p.createdAt))}</span></div>
         <h3>${esc(p.title)}</h3>
-        <div class="meta"><span>📍 ${esc(p.location)}</span><span>🕒 ${esc(p.schedule)}</span></div>
+        <div class="meta"><span>🌎 ${esc(p.location)}</span><span>🕒 ${esc(p.schedule)}</span></div>
         <div class="grid grid-3" style="grid-template-columns:repeat(3,1fr);gap:8px;margin:4px 0">
           <div><div class="small muted">Applicants</div><strong>${cands.length}</strong></div>
           <div><div class="small muted">In evaluation</div><strong>${inReview}</strong></div>
@@ -85,16 +85,17 @@
       <form class="form card" id="post-form" novalidate>
         <div class="row between"><h2 style="margin:0">New position</h2><button type="button" class="btn btn-sm" id="fill-sample">⚡ Fill sample</button></div>
         <div class="form-grid">
-          <div class="field" style="grid-column:1/-1"><label for="p-title">Job title *</label><input type="text" id="p-title" required placeholder="e.g. Warehouse Associate"></div>
+          <div class="field" style="grid-column:1/-1"><label for="p-title">Job title *</label><input type="text" id="p-title" required placeholder="e.g. Remote Customer Support Agent"></div>
           <div class="field"><label for="p-category">Category</label><select id="p-category">${CATEGORIES.map((c) => `<option>${c}</option>`).join('')}</select></div>
-          <div class="field"><label for="p-location">Location *</label><input type="text" id="p-location" required placeholder="City, State or Remote (US)"></div>
+          <div class="field"><label for="p-location">Remote region *</label><select id="p-location">${window.MOCK.REGIONS.map((r) => `<option>${esc(r)}</option>`).join('')}</select>
+            <span class="hint">Where candidates can live and work from.</span></div>
           <div class="field"><label for="p-type">Type</label><select id="p-type"><option>Full-time</option><option>Part-time</option><option>Contract</option><option>Seasonal</option></select></div>
           <div class="field"><label for="p-headcount">How many people? *</label><input type="number" id="p-headcount" min="1" max="1000" value="10" required></div>
-          <div class="field"><label for="p-schedule">Schedule *</label><input type="text" id="p-schedule" required placeholder="e.g. Mon–Fri, 9 am – 5 pm"></div>
+          <div class="field"><label for="p-schedule">Schedule *</label><input type="text" id="p-schedule" required placeholder="e.g. Mon–Fri, 9 am – 5 pm ET"></div>
           <div class="field"><label for="p-pay">Pay range</label><input type="text" id="p-pay" placeholder="e.g. $17–19/hr"></div>
         </div>
         <div class="field"><label for="p-reqs">Requirements *</label>
-          <textarea id="p-reqs" placeholder="One per line, e.g.&#10;English (fluent)&#10;Customer service&#10;Forklift certification"></textarea>
+          <textarea id="p-reqs" placeholder="One per line, e.g.&#10;English (fluent)&#10;Customer service&#10;Stable internet (25+ Mbps)"></textarea>
           <span class="hint">The AI compares each applicant against these requirements.</span></div>
         <div class="field"><label for="p-desc">Short description</label><textarea id="p-desc" style="min-height:70px"></textarea></div>
         <div class="field"><label for="p-roleplay">Role-play scenario for applicants</label>
@@ -174,7 +175,7 @@
           ${avatar(c.name, 44)}
           <div class="grow">
             <div class="row"><strong>#${rank} · ${esc(c.name)}</strong></div>
-            <div class="small muted">${esc(c.location || '')}${c.location ? ' · ' : ''}${esc(c.experienceYears)} yrs experience · ${esc((c.languages || []).join(', '))} · Available ${esc((c.availability || '').toLowerCase())}</div>
+            <div class="small muted">${esc(c.location || '')}${c.location ? ' · ' : ''}${c.timezone ? esc(c.timezone) + ' · ' : ''}${esc(c.experienceYears)} yrs experience · ${esc((c.languages || []).join(', '))} · Available ${esc((c.availability || '').toLowerCase())}</div>
             <div class="ai-label" style="margin-top:10px">✦ AI summary</div>
             <ul class="ai-summary small">${c.ai.summary.map((l) => `<li>${esc(l)}</li>`).join('')}</ul>
             <div class="chips" style="margin-top:10px">${(c.ai.matched || []).map((r) => `<span class="chip ok">✓ ${esc(r)}</span>`).join('')}</div>

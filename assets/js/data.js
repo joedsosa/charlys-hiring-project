@@ -22,79 +22,84 @@
     { id: 'cl-fabrikam', name: 'Fabrikam Services', industry: 'Customer service' },
   ];
 
-  const SOURCES = ['Job boards', 'Social media', 'Referral', 'Career site', 'Job fair', 'Talent pool'];
+  const SOURCES = ['Job boards', 'Social media', 'Referral', 'Career site', 'Virtual job fair', 'Talent pool'];
+
+  // Every role is remote. Regions say where candidates may live; schedules say which hours they cover.
+  const REGIONS = ['Remote · US', 'Remote · Americas'];
+  const TIMEZONES = ['Eastern (ET)', 'Central (CT)', 'Mountain (MT)', 'Pacific (PT)'];
 
   const ROLEPLAY_PROMPTS = {
-    support: 'A customer calls upset because their order arrived damaged. How do you respond?',
-    sales: 'A prospect says your product is too expensive. What do you tell them?',
-    operations: 'Your shift is behind schedule and a teammate is not following safety rules. What do you do?',
-    hospitality: 'A guest complains that their room is not ready at check-in time. How do you handle it?',
+    support: 'A customer on a video call is upset because their order arrived damaged. How do you respond?',
+    sales: 'A prospect on a call says your product is too expensive. What do you tell them?',
+    techsupport: 'A frustrated customer cannot log in to their account and you can only help over chat. How do you guide them?',
+    dispatch: 'A delivery is running late, the customer is calling, and you can only reach the driver by messages. What do you do?',
+    assistant: 'Your manager, two time zones away, sends you three urgent tasks on the team chat at once. How do you prioritize and communicate?',
   };
 
   const POSITIONS = [
     {
       id: 'pos-csr', clientId: 'cl-fabrikam', title: 'Bilingual Customer Support Representative',
-      category: 'Customer support', location: 'Remote (US)', type: 'Full-time',
+      category: 'Customer support', location: 'Remote · US', type: 'Full-time',
       schedule: 'Mon–Fri, 9:00 am – 5:30 pm CT', headcount: 25, pay: '$18–20/hr',
-      requirements: ['English (fluent)', 'Spanish (conversational)', 'Customer service', 'CRM tools', 'Typing 40+ wpm'],
-      description: 'Answer inbound calls and chats, resolve order issues and keep customers happy.',
-      roleplay: 'support', daysAgo: 40,
-    },
-    {
-      id: 'pos-wh', clientId: 'cl-contoso', title: 'Warehouse Associate',
-      category: 'Operations', location: 'Dallas, TX', type: 'Full-time',
-      schedule: 'Rotating shifts, 4×10 h', headcount: 40, pay: '$17–19/hr',
-      requirements: ['Forklift certification', 'Inventory', 'Lift 50 lbs', 'Safety procedures', 'Teamwork'],
-      description: 'Pick, pack and ship orders in a high-volume distribution center.',
-      roleplay: 'operations', daysAgo: 45,
-    },
-    {
-      id: 'pos-driver', clientId: 'cl-contoso', title: 'Delivery Driver',
-      category: 'Operations', location: 'Houston, TX', type: 'Full-time',
-      schedule: 'Mon–Sat, 7:00 am – 3:30 pm', headcount: 15, pay: '$19–21/hr',
-      requirements: ['Valid driver license', 'Clean driving record', 'Route planning', 'Customer service', 'Time management'],
-      description: 'Deliver packages on assigned routes with a company van.',
-      roleplay: 'operations', daysAgo: 30,
-    },
-    {
-      id: 'pos-retail', clientId: 'cl-northwind', title: 'Retail Sales Associate',
-      category: 'Retail', location: 'Phoenix, AZ', type: 'Part-time',
-      schedule: 'Weekends + 2 evenings', headcount: 20, pay: '$16–18/hr',
-      requirements: ['Customer service', 'POS systems', 'Upselling', 'Merchandising', 'Teamwork'],
-      description: 'Help shoppers, run the register and keep the sales floor organized.',
-      roleplay: 'sales', daysAgo: 35,
+      requirements: ['English (fluent)', 'Spanish (conversational)', 'Customer service', 'CRM tools', 'Stable internet (25+ Mbps)'],
+      description: 'Answer inbound calls and chats from home, resolve order issues and keep customers happy.',
+      roleplay: 'support', daysAgo: 45,
     },
     {
       id: 'pos-sales', clientId: 'cl-fabrikam', title: 'Inbound Sales Agent',
-      category: 'Sales', location: 'Remote (US)', type: 'Full-time',
+      category: 'Sales', location: 'Remote · US', type: 'Full-time',
       schedule: 'Mon–Fri, 10:00 am – 6:30 pm ET', headcount: 12, pay: '$17/hr + commission',
-      requirements: ['English (fluent)', 'Sales experience', 'CRM tools', 'Objection handling', 'Goal oriented'],
-      description: 'Turn inbound leads into customers over the phone.',
-      roleplay: 'sales', daysAgo: 25,
+      requirements: ['English (fluent)', 'Sales experience', 'CRM tools', 'Objection handling', 'Quiet home office'],
+      description: 'Turn inbound leads into customers over phone and video calls.',
+      roleplay: 'sales', daysAgo: 40,
     },
     {
-      id: 'pos-frontdesk', clientId: 'cl-northwind', title: 'Front Desk Receptionist',
-      category: 'Hospitality', location: 'Orlando, FL', type: 'Full-time',
-      schedule: 'Rotating, includes weekends', headcount: 6, pay: '$16–17/hr',
-      requirements: ['Customer service', 'English (fluent)', 'Scheduling software', 'Multitasking', 'Professional appearance'],
-      description: 'Welcome guests, manage check-ins and answer phones.',
-      roleplay: 'hospitality', daysAgo: 20,
+      id: 'pos-tech', clientId: 'cl-contoso', title: 'Technical Support Specialist (Tier 1)',
+      category: 'IT support', location: 'Remote · US', type: 'Full-time',
+      schedule: 'Rotating shifts, 24/7 coverage', headcount: 15, pay: '$19–22/hr',
+      requirements: ['Troubleshooting', 'Ticketing systems', 'English (fluent)', 'Typing 40+ wpm', 'Own computer'],
+      description: 'Help customers solve login, setup and connectivity issues through chat, email and phone.',
+      roleplay: 'techsupport', daysAgo: 35,
     },
     {
-      id: 'pos-data', clientId: 'cl-fabrikam', title: 'Data Entry Clerk',
-      category: 'Administrative', location: 'Remote (US)', type: 'Contract',
-      schedule: 'Flexible, 30 h/week', headcount: 10, pay: '$16/hr',
-      requirements: ['Typing 50+ wpm', 'Excel', 'Attention to detail', 'Data privacy', 'Time management'],
-      description: 'Enter and verify records accurately for a back-office team.',
-      roleplay: 'support', daysAgo: 18,
+      id: 'pos-dispatch', clientId: 'cl-contoso', title: 'Remote Dispatch Coordinator',
+      category: 'Operations', location: 'Remote · Americas', type: 'Full-time',
+      schedule: 'Mon–Sat, 7:00 am – 3:30 pm CT', headcount: 10, pay: '$17–19/hr',
+      requirements: ['Route planning', 'Customer service', 'Time management', 'Multitasking', 'Stable internet (25+ Mbps)'],
+      description: 'Coordinate drivers and deliveries in real time from a home office.',
+      roleplay: 'dispatch', daysAgo: 30,
     },
     {
-      id: 'pos-cook', clientId: 'cl-northwind', title: 'Line Cook',
-      category: 'Hospitality', location: 'Atlanta, GA', type: 'Full-time',
-      schedule: 'Evenings and weekends', headcount: 8, pay: '$17–19/hr',
-      requirements: ['Food handler card', 'Line cooking', 'Food safety', 'Speed under pressure', 'Teamwork'],
-      description: 'Prepare dishes on a busy line following recipes and safety standards.',
-      roleplay: 'hospitality', daysAgo: 15,
+      id: 'pos-chat', clientId: 'cl-northwind', title: 'E-commerce Chat Support Agent',
+      category: 'Customer support', location: 'Remote · Americas', type: 'Part-time',
+      schedule: 'Weekends + 2 evenings, ET hours', headcount: 30, pay: '$15–17/hr',
+      requirements: ['English (fluent)', 'Written communication', 'Customer service', 'Typing 50+ wpm', 'Own computer'],
+      description: 'Answer online shoppers through live chat and email for a growing online store.',
+      roleplay: 'support', daysAgo: 25,
+    },
+    {
+      id: 'pos-appt', clientId: 'cl-northwind', title: 'Appointment Setter',
+      category: 'Sales', location: 'Remote · US', type: 'Full-time',
+      schedule: 'Mon–Fri, 9:00 am – 5:00 pm PT', headcount: 8, pay: '$16/hr + bonus',
+      requirements: ['English (fluent)', 'Cold calling', 'CRM tools', 'Goal oriented', 'Quiet home office'],
+      description: 'Call warm leads and book meetings for the sales team.',
+      roleplay: 'sales', daysAgo: 20,
+    },
+    {
+      id: 'pos-data', clientId: 'cl-fabrikam', title: 'Data Entry Specialist',
+      category: 'Administrative', location: 'Remote · Americas', type: 'Contract',
+      schedule: 'Flexible, 30 h/week', headcount: 10, pay: '$15/hr',
+      requirements: ['Typing 50+ wpm', 'Excel', 'Attention to detail', 'Data privacy', 'Own computer'],
+      description: 'Enter and verify records accurately for a remote back-office team.',
+      roleplay: 'assistant', daysAgo: 18,
+    },
+    {
+      id: 'pos-va', clientId: 'cl-northwind', title: 'Virtual Assistant',
+      category: 'Administrative', location: 'Remote · Americas', type: 'Full-time',
+      schedule: 'Mon–Fri, 8:00 am – 4:30 pm ET', headcount: 6, pay: '$16–18/hr',
+      requirements: ['English (fluent)', 'Calendar management', 'Google Workspace', 'Written communication', 'Time management'],
+      description: 'Support managers with email, scheduling, research and documents.',
+      roleplay: 'assistant', daysAgo: 15,
     },
   ];
 
@@ -109,6 +114,9 @@
     'Jordan Price', 'Paola Vargas', 'Trevor Collins', 'Imani Wright', 'Rafael Soto',
   ];
 
+  const US_CITIES = ['San Antonio, TX', 'Miami, FL', 'Chicago, IL', 'Denver, CO', 'Charlotte, NC', 'Phoenix, AZ', 'Columbus, OH', 'Sacramento, CA'];
+  const AMERICAS_CITIES = US_CITIES.concat(['Mexico City, Mexico', 'Bogotá, Colombia', 'San Pedro Sula, Honduras', 'San José, Costa Rica', 'Santo Domingo, Dominican Republic']);
+
   const ROLEPLAY_ANSWERS = [
     'First I would listen and apologize for the trouble. I understand how frustrating it is. Then I would confirm the details, offer a replacement or refund right away, and follow up by email so they know the solution is on its way.',
     'I would stay calm, thank them for telling me, and ask questions to understand the problem. I would explain the options we have and agree on a solution together, then make sure it is resolved.',
@@ -116,8 +124,8 @@
     'I would listen to the customer, understand what happened, and offer to fix it as soon as possible. I would keep a positive attitude.',
     'Tell them sorry and send a new one.',
     'I would acknowledge the concern, explain the value and the benefits they get, and offer options that fit their budget. Then I would ask if they have any other questions before closing.',
-    'I would talk to the teammate respectfully, remind them of the safety procedure, and if it continues I would report it to the shift lead. Safety comes first even when we are behind.',
-    'I would apologize, offer them a seat and a drink, give a clear time estimate and check on the room personally. If possible I would offer an upgrade or a small courtesy.',
+    'I would message the driver for an updated estimate, call the customer back to apologize and give a clear time, and log everything in the system so the team knows. If it keeps slipping, I would offer a new delivery window.',
+    'I would acknowledge each request quickly so my manager knows I saw them, check deadlines to prioritize, confirm the order with a short message, and send an update as each task is done.',
   ];
 
   // Deterministic pseudo-random generator so every reset yields the same dataset.
@@ -179,7 +187,8 @@
         name,
         email: `${first}.${last}@example.com`,
         phone: `(555) ${String(200 + i * 7).slice(-3)}-${String(1000 + i * 137).slice(-4)}`,
-        location: position.location.startsWith('Remote') ? pick(['San Antonio, TX', 'Miami, FL', 'Chicago, IL', 'Denver, CO', 'Charlotte, NC']) : position.location,
+        location: pick(position.location === 'Remote · US' ? US_CITIES : AMERICAS_CITIES),
+        timezone: pick(TIMEZONES),
         positionId: position.id,
         source: pick(SOURCES),
         experienceYears: Math.floor(rand() * 9),
@@ -200,5 +209,5 @@
     return { positions, candidates, clients: CLIENTS };
   }
 
-  window.MOCK = { STAGES, CLIENTS, SOURCES, ROLEPLAY_PROMPTS, build };
+  window.MOCK = { STAGES, CLIENTS, SOURCES, REGIONS, TIMEZONES, ROLEPLAY_PROMPTS, build };
 })();

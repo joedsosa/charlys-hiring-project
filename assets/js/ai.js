@@ -92,7 +92,7 @@
     const years = Number(c.experienceYears) || 0;
     const expText = years === 0 ? 'is entry-level' : `has ${years} year${years === 1 ? '' : 's'} of relevant experience`;
     const line1 = `${first} ${expText} and matches ${match.matched.length} of ${position.requirements.length} key requirements` +
-      (match.missing.length ? ` (missing: ${match.missing.slice(0, 2).join(', ')}).` : '.');
+      (match.missing.length ? `. Missing: ${match.missing.slice(0, 2).join(', ')}.` : '.');
 
     const spanish = (c.languages || []).includes('Spanish') ? ', also speaks Spanish' : '';
     const line2 = c.voiceNote
@@ -111,12 +111,15 @@
     if (!c.voiceNote) return '';
     const first = c.name.split(' ')[0];
     const years = Number(c.experienceYears) || 0;
-    const skills = match.matched.filter((s) => !/english|spanish|bilingual/i.test(s)).slice(0, 2).map((s) => s.replace(/\s*\(.*\)/, '').toLowerCase());
+    const isRemoteReq = (s) => /internet|home office|own computer/i.test(s);
+    const skills = match.matched.filter((s) => !/english|spanish|bilingual/i.test(s) && !isRemoteReq(s)).slice(0, 2)
+      .map((s) => s.replace(/\s*\(.*\)/, '').split(' ').map((w) => (w === w.toUpperCase() ? w : w.toLowerCase())).join(' '));
     const parts = [
       `Hi, my name is ${first}, and I'm applying for the ${position.title} position.`,
       years ? `I have about ${years} year${years === 1 ? '' : 's'} of experience` + (skills.length ? `, mostly with ${skills.join(' and ')}.` : '.') : `This would be my first job in this field, but I learn fast and I'm very reliable.`,
       (c.languages || []).includes('Spanish') ? `I'm bilingual in English and Spanish, which helps a lot with customers.` : `I enjoy working with people and as part of a team.`,
-      `I'm available to start ${norm(c.availability || 'soon')}, and the schedule works for me.`,
+      match.matched.some(isRemoteReq) ? `I work from a quiet home office with my own computer and a reliable internet connection.` : `I'm comfortable working remotely and communicating online with my team.`,
+      `I'm in the ${c.timezone ? c.timezone.replace(/\s*\(.*\)/, '') + ' time zone' : 'Americas'}, I'm available to start ${norm(c.availability || 'soon')}, and the schedule works for me.`,
       `Thank you for considering my application.`,
     ];
     return parts.join(' ');

@@ -3,9 +3,9 @@
   const { $, $$, esc, fmtDate, timeAgo, stageBadge, tracker, toast } = window.UI;
 
   const SAMPLE_PEOPLE = [
-    { name: 'Alex Rivera', email: 'alex.rivera@example.com', phone: '(555) 410-2231', location: 'San Antonio, TX' },
-    { name: 'Jordan Ellis', email: 'jordan.ellis@example.com', phone: '(555) 318-7744', location: 'Miami, FL' },
-    { name: 'Sam Delgado', email: 'sam.delgado@example.com', phone: '(555) 602-1189', location: 'Chicago, IL' },
+    { name: 'Alex Rivera', email: 'alex.rivera@example.com', phone: '(555) 410-2231', location: 'San Antonio, TX', timezone: 'Central (CT)' },
+    { name: 'Jordan Ellis', email: 'jordan.ellis@example.com', phone: '(555) 318-7744', location: 'Miami, FL', timezone: 'Eastern (ET)' },
+    { name: 'Sam Delgado', email: 'sam.delgado@example.com', phone: '(555) 602-1189', location: 'Chicago, IL', timezone: 'Central (CT)' },
   ];
   const SAMPLE_ANSWER = 'First I would listen carefully and apologize for the trouble, because I understand how frustrating that is. Then I would confirm the details, offer the best solution we have, like a replacement or a refund, and follow up to make sure it was resolved.';
 
@@ -58,7 +58,7 @@
         <div class="row between"><span class="badge">${esc(p.category)}</span>${p.isNew ? '<span class="badge new">New</span>' : `<span class="small muted">${esc(timeAgo(p.createdAt))}</span>`}</div>
         <h3>${esc(p.title)}</h3>
         <div class="small muted">${esc(client ? client.name : '')}</div>
-        <div class="meta"><span>📍 ${esc(p.location)}</span><span>🕒 ${esc(p.type)}</span>${p.pay ? `<span>💵 ${esc(p.pay)}</span>` : ''}<span>👥 Hiring ${esc(p.headcount)}</span></div>
+        <div class="meta"><span>🌎 ${esc(p.location)}</span><span>🕒 ${esc(p.type)}</span>${p.pay ? `<span>💵 ${esc(p.pay)}</span>` : ''}<span>👥 Hiring ${esc(p.headcount)}</span></div>
         <div class="small muted">${esc(p.schedule)}</div>
         <div class="chips">${p.requirements.slice(0, 4).map((r) => `<span class="chip">${esc(r)}</span>`).join('')}</div>
         <div class="actions">${applied.has(p.id)
@@ -91,7 +91,7 @@
       <div class="card" style="margin-top:12px">
         <div class="row between" style="align-items:flex-start">
           <div><h2 style="margin-bottom:4px">${esc(p.title)}</h2>
-            <div class="meta"><span>📍 ${esc(p.location)}</span><span>🕒 ${esc(p.type)} · ${esc(p.schedule)}</span>${p.pay ? `<span>💵 ${esc(p.pay)}</span>` : ''}</div></div>
+            <div class="meta"><span>🌎 ${esc(p.location)}</span><span>🕒 ${esc(p.type)} · ${esc(p.schedule)}</span>${p.pay ? `<span>💵 ${esc(p.pay)}</span>` : ''}</div></div>
           <button type="button" class="btn btn-sm" id="fill-sample">⚡ Fill sample</button>
         </div>
         ${p.description ? `<p class="muted" style="margin:12px 0 0">${esc(p.description)}</p>` : ''}
@@ -103,7 +103,9 @@
           <div class="field"><label for="a-name">Full name *</label><input type="text" id="a-name" required autocomplete="name"></div>
           <div class="field"><label for="a-email">Email *</label><input type="email" id="a-email" required autocomplete="email"></div>
           <div class="field"><label for="a-phone">Phone</label><input type="tel" id="a-phone" autocomplete="tel"></div>
-          <div class="field"><label for="a-location">City, State</label><input type="text" id="a-location" autocomplete="address-level2"></div>
+          <div class="field"><label for="a-location">City and state / country</label><input type="text" id="a-location" autocomplete="address-level2" placeholder="Where you work from"></div>
+          <div class="field"><label for="a-timezone">Your time zone</label>
+            <select id="a-timezone">${window.MOCK.TIMEZONES.concat('Other (Americas)').map((t) => `<option>${esc(t)}</option>`).join('')}</select></div>
           <div class="field"><label for="a-exp">Years of relevant experience</label>
             <select id="a-exp">${Array.from({ length: 11 }, (_, i) => `<option value="${i}">${i === 0 ? 'None / entry-level' : i === 10 ? '10+' : i}</option>`).join('')}</select></div>
           <div class="field"><label for="a-english">English level</label>
@@ -114,7 +116,7 @@
             <div class="check-group"><label class="check"><input type="checkbox" name="lang" value="English" checked> English</label><label class="check"><input type="checkbox" name="lang" value="Spanish"> Spanish</label></div></div>
         </div>
 
-        <div class="field"><span class="label">Which of these requirements do you meet?</span>
+        <div class="field"><span class="label">Which of these requirements do you meet? <span class="muted" style="font-weight:400">(includes your remote work setup)</span></span>
           <div class="check-group">${p.requirements.map((r) => `<label class="check"><input type="checkbox" name="req" value="${esc(r)}"> ${esc(r)}</label>`).join('')}</div></div>
 
         <h3>2. CV</h3>
@@ -225,6 +227,7 @@
     $('#a-email').value = person.email;
     $('#a-phone').value = person.phone;
     $('#a-location').value = person.location;
+    $('#a-timezone').value = person.timezone;
     $('#a-exp').value = '3';
     $('#a-english').value = 'Fluent';
     $$('input[name="lang"]').forEach((i) => { i.checked = true; });
@@ -248,6 +251,7 @@
       name, email,
       phone: $('#a-phone').value.trim(),
       location: $('#a-location').value.trim(),
+      timezone: $('#a-timezone').value,
       positionId: p.id,
       experienceYears: Number($('#a-exp').value),
       englishLevel: $('#a-english').value,
@@ -292,8 +296,8 @@
     return {
       applied: 'We received your application. Our AI-assisted screening is reviewing it now.',
       screened: 'Your profile passed the initial screening. A recruiter will contact you about next steps.',
-      roleplay: 'You have been invited to a short role-play exercise. Check your email for the link.',
-      interview: 'Interview stage: a recruiter will schedule a call with you.',
+      roleplay: 'You have been invited to a short online role-play exercise. Check your email for the link.',
+      interview: 'Interview stage: a recruiter will schedule a video call with you.',
       approved: '🎉 Congratulations! You have been approved and shared with the hiring company.',
       declined: 'Thank you for applying. We will keep your profile in our talent pool for future roles.',
     }[c.stage] || '';

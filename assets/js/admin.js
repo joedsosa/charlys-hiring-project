@@ -256,7 +256,8 @@
         <dl class="kv">
           <dt>Email</dt><dd>${esc(c.email)}</dd>
           <dt>Phone</dt><dd>${esc(c.phone || '—')}</dd>
-          <dt>Location</dt><dd>${esc(c.location || '—')}</dd>
+          <dt>Works from</dt><dd>${esc(c.location || '—')}</dd>
+          <dt>Time zone</dt><dd>${esc(c.timezone || '—')}</dd>
           <dt>Experience</dt><dd>${esc(c.experienceYears)} years</dd>
           <dt>English</dt><dd>${esc(c.englishLevel || '—')}</dd>
           <dt>Languages</dt><dd>${esc((c.languages || []).join(', ') || '—')}</dd>

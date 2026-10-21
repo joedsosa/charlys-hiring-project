@@ -1,12 +1,12 @@
-# HireFlow — AI-assisted mass hiring (prototype)
+# Charly's Hiring Project — AI-assisted mass hiring for remote teams (prototype)
 
-A clickable prototype of a hiring platform for high-volume roles, with three portals:
+A clickable prototype of a hiring platform for high-volume **remote** roles (support, sales, IT support, operations, admin), with three portals:
 
 - **Candidate portal** (`candidate.html`): browse and filter open positions, apply with basic info, a CV and a short voice note, answer a quick role-play question, and follow each application with a stage tracker.
 - **Client portal** (`client.html`): post a position (title, requirements, schedule, headcount) and review an AI-ranked shortlist of approved candidates.
 - **Admin dashboard** (`admin.html`): KPIs, a kanban pipeline (Applied → AI Screened → Role-play → Interview → Approved / Declined), and a candidate detail panel with AI score, 3-line summary, score breakdown, voice-note transcript and Approve / Decline actions.
 
-> All companies, people and data are fictional. "HireFlow" is a sample brand.
+> All companies, people and data in the demo are fictional.
 
 ## Try the 2-minute demo
 
