@@ -11,6 +11,10 @@
   $('[data-stat="score"]').textContent = avg;
 
   const top = scored.slice().sort((a, b) => b.ai.score - a.ai.score).slice(0, 3);
+  // Decorative dot matrix in the brand colors (deterministic, so it looks the same on every visit).
+  const palette = ['l', 'o', 'w', '', 'l', 'o', '', 'l'];
+  $('#dots').innerHTML = Array.from({ length: 42 }, (_, i) => `<i class="${palette[(i * 7 + (i >> 2)) % palette.length]}"></i>`).join('');
+
   $('#hero-preview').innerHTML = top.map((c) => {
     const p = Store.position(c.positionId);
     return `<div class="card"><div class="preview-row">${avatar(c.name)}

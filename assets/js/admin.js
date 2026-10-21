@@ -115,9 +115,10 @@
       <div class="grid grid-2" style="margin-top:16px">
         <div class="card">
           <div class="card-title"><h3>Where everyone is</h3><a class="small" href="#pipeline">Open the board</a></div>
-          <div class="stage-list">${STAGE_IDS.map((id) => `<div class="stage-row"><span>${esc(stageLabel(id))}</span>
-            <div class="bar-track"><div class="bar-fill s-${id}" style="width:${(s.byStage[id] / max) * 100}%"></div></div>
-            <strong style="text-align:right">${s.byStage[id]}</strong></div>`).join('')}</div>
+          <div class="capsules">${STAGE_IDS.map((id) => `<div class="capsule s-${id}">
+            <div class="track"><div class="fill" style="height:${Math.max(18, (s.byStage[id] / max) * 100)}%">${s.byStage[id]}</div></div>
+            <span class="cap-label">${esc(stageLabel(id))}</span></div>`).join('')}</div>
+          <div class="legend"><span class="muted">Total applicants</span><span style="margin-left:auto">${s.total}</span></div>
         </div>
         <div class="card">
           <div class="card-title"><h3>Just applied</h3></div>

@@ -5,36 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Prototype of a hiring platform for remote teams, with candidate, client and admin portals.">
   <title>Hiring platform prototype</title>
-  <link rel="icon" href="assets/img/favicon.svg?v=3" type="image/svg+xml">
+  <link rel="icon" href="assets/img/favicon.svg?v=4" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
-  <link rel="stylesheet" href="assets/css/styles.css?v=3">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@500;600;700;800&display=swap">
+  <link rel="stylesheet" href="assets/css/styles.css?v=4">
   <script>
-    try { var t = localStorage.getItem('hireflow-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+    try { var t = localStorage.getItem('hireflow-theme') || 'dark'; document.documentElement.setAttribute('data-theme', t); } catch (e) {}
   </script>
 </head>
 <body data-page="home">
   <main>
     <section class="hero">
-      <span class="blob" aria-hidden="true"></span>
-      <div class="container hero-grid">
-        <div>
-          <span class="eyebrow">🌎 Built for remote teams</span>
-          <h1>Hire great remote people, <span class="marker">by the hundreds.</span></h1>
-          <p class="lead">Candidates apply from their phone in a few minutes. Every application gets reviewed and scored
-            right away, so your team spends its time talking to the best people instead of reading piles of resumes.</p>
-          <div class="hero-actions">
-            <a class="btn btn-primary btn-lg" href="#demo">See how it works</a>
-            <a class="btn btn-lg" href="admin.html">Open the dashboard</a>
-          </div>
-          <div class="stats">
-            <div class="stat"><strong data-stat="positions">0</strong><span>remote roles open</span></div>
-            <div class="stat"><strong data-stat="candidates">0</strong><span>people applying</span></div>
-            <div class="stat"><strong data-stat="score">0</strong><span>average score</span></div>
+      <div class="container">
+        <div class="hero-card">
+          <div class="hero-grid">
+            <div>
+              <span class="eyebrow">🌎 Built for remote teams</span>
+              <h1>Hire great remote people, <span class="marker">by the hundreds.</span></h1>
+              <p class="lead">Candidates apply from their phone in a few minutes. Every application gets reviewed and scored
+                right away, so your team spends its time talking to the best people instead of reading piles of resumes.</p>
+              <div class="hero-actions">
+                <a class="btn btn-primary btn-lg" href="#demo">See how it works</a>
+                <a class="btn btn-lg" href="admin.html">Open the dashboard</a>
+              </div>
+              <div class="dots" id="dots" aria-hidden="true"></div>
+            </div>
+            <div class="hero-preview" aria-hidden="true" id="hero-preview"></div>
           </div>
         </div>
-        <div class="hero-preview" aria-hidden="true" id="hero-preview"></div>
+        <div class="stats">
+          <div class="stat"><strong data-stat="positions">0</strong><span>remote roles open</span></div>
+          <div class="stat"><strong data-stat="candidates">0</strong><span>people applying</span></div>
+          <div class="stat"><strong data-stat="score">0</strong><span>average score</span></div>
+        </div>
       </div>
     </section>
 
@@ -99,11 +103,11 @@
     </section>
   </main>
 
-  <script src="assets/js/config.js?v=3"></script>
-  <script src="assets/js/data.js?v=3"></script>
-  <script src="assets/js/ai.js?v=3"></script>
-  <script src="assets/js/store.js?v=3"></script>
-  <script src="assets/js/common.js?v=3"></script>
-  <script src="assets/js/home.js?v=3"></script>
+  <script src="assets/js/config.js?v=4"></script>
+  <script src="assets/js/data.js?v=4"></script>
+  <script src="assets/js/ai.js?v=4"></script>
+  <script src="assets/js/store.js?v=4"></script>
+  <script src="assets/js/common.js?v=4"></script>
+  <script src="assets/js/home.js?v=4"></script>
 </body>
 </html>
