@@ -90,7 +90,7 @@
   function buildSummary(c, position, b, match) {
     const first = c.name.split(' ')[0];
     const years = Number(c.experienceYears) || 0;
-    const expText = years === 0 ? 'is entry-level' : `has ${years} year${years === 1 ? '' : 's'} of relevant experience`;
+    const expText = years === 0 ? 'is new to this kind of role' : `has ${years} year${years === 1 ? '' : 's'} of relevant experience`;
     const line1 = `${first} ${expText} and matches ${match.matched.length} of ${position.requirements.length} key requirements` +
       (match.missing.length ? `. Missing: ${match.missing.slice(0, 2).join(', ')}.` : '.');
 
@@ -99,7 +99,7 @@
       ? `Voice note shows ${describeLevel(b.communication, ['clear, confident', 'clear', 'hesitant'])} spoken English${spanish}.`
       : `No voice note provided; communication scored from the written application${spanish}.`;
 
-    const line3 = `Role-play answer ${describeLevel(b.roleplay, [
+    const line3 = `Role play answer ${describeLevel(b.roleplay, [
       'shows empathy and a clear resolution path',
       'is reasonable but could be more specific',
       'is brief and lacks a clear resolution',
@@ -181,7 +181,7 @@
   };
 
   // Steps shown in the UI while an analysis is running.
-  const STEPS = ['Parsing CV', 'Transcribing voice note', 'Evaluating role-play', 'Scoring against requirements', 'Writing summary'];
+  const STEPS = ['Reading the resume', 'Listening to the voice note', 'Checking the scenario answer', 'Comparing with the job requirements', 'Writing the summary'];
 
   window.AI = {
     provider: 'mock',

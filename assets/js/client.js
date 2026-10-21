@@ -1,14 +1,14 @@
 /* Client portal: post positions and review the AI-ranked shortlist of approved candidates. */
 (function () {
-  const { $, $$, esc, fmtDate, timeAgo, avatar, scoreRing, scoreBar, toast } = window.UI;
+  const { $, $$, esc, fmtDate, timeAgo, avatar, colorIndex, tag, scoreRing, scoreBar, toast } = window.UI;
   const CLIENT_KEY = window.APP_CONFIG.storageKey + '-client';
 
   const SAMPLE_POSITION = {
     title: 'Bilingual Call Center Agent',
     category: 'Customer support',
-    location: 'Remote · US',
-    type: 'Full-time',
-    schedule: 'Mon–Fri, 8:00 am – 4:30 pm CT',
+    location: 'Remote (US)',
+    type: 'Full time',
+    schedule: 'Mon to Fri, 8:00 am to 4:30 pm CT',
     headcount: 30,
     pay: '$18/hr',
     requirements: ['English (fluent)', 'Spanish (conversational)', 'Customer service', 'CRM tools', 'Stable internet (25+ Mbps)'],
@@ -56,10 +56,11 @@
       const approved = cands.filter((c) => c.stage === 'approved').length;
       const inReview = cands.filter((c) => !['approved', 'declined'].includes(c.stage)).length;
       const pct = Math.min(100, Math.round((approved / p.headcount) * 100));
-      return `<article class="card position-card ${p.id === highlightId ? 'is-highlight' : ''}" id="card-${esc(p.id)}">
-        <div class="row between"><span class="badge">${esc(p.category)}</span><span class="small muted">Posted ${esc(timeAgo(p.createdAt))}</span></div>
+      const ci = colorIndex(p.category);
+      return `<article class="card position-card c-${ci} ${p.id === highlightId ? 'is-highlight' : ''}" id="card-${esc(p.id)}">
+        <div class="row between"><span class="badge c-${ci}">${esc(p.category)}</span><span class="small muted">Posted ${esc(timeAgo(p.createdAt))}</span></div>
         <h3>${esc(p.title)}</h3>
-        <div class="meta"><span>🌎 ${esc(p.location)}</span><span>🕒 ${esc(p.schedule)}</span></div>
+        <div class="tags">${tag('globe', 'sky', p.location)}${tag('clock', 'violet', p.schedule)}</div>
         <div class="grid grid-3" style="grid-template-columns:repeat(3,1fr);gap:8px;margin:4px 0">
           <div><div class="small muted">Applicants</div><strong>${cands.length}</strong></div>
           <div><div class="small muted">In evaluation</div><strong>${inReview}</strong></div>
@@ -83,22 +84,22 @@
   function renderPostForm() {
     $('#view-post').innerHTML = `
       <form class="form card" id="post-form" novalidate>
-        <div class="row between"><h2 style="margin:0">New position</h2><button type="button" class="btn btn-sm" id="fill-sample">⚡ Fill sample</button></div>
+        <div class="row between"><h2 style="margin:0">Post a new remote role</h2><button type="button" class="btn btn-sm" id="fill-sample">⚡ Fill sample</button></div>
         <div class="form-grid">
           <div class="field" style="grid-column:1/-1"><label for="p-title">Job title *</label><input type="text" id="p-title" required placeholder="e.g. Remote Customer Support Agent"></div>
           <div class="field"><label for="p-category">Category</label><select id="p-category">${CATEGORIES.map((c) => `<option>${c}</option>`).join('')}</select></div>
           <div class="field"><label for="p-location">Remote region *</label><select id="p-location">${window.MOCK.REGIONS.map((r) => `<option>${esc(r)}</option>`).join('')}</select>
             <span class="hint">Where candidates can live and work from.</span></div>
-          <div class="field"><label for="p-type">Type</label><select id="p-type"><option>Full-time</option><option>Part-time</option><option>Contract</option><option>Seasonal</option></select></div>
+          <div class="field"><label for="p-type">Type</label><select id="p-type"><option>Full time</option><option>Part time</option><option>Contract</option><option>Seasonal</option></select></div>
           <div class="field"><label for="p-headcount">How many people? *</label><input type="number" id="p-headcount" min="1" max="1000" value="10" required></div>
-          <div class="field"><label for="p-schedule">Schedule *</label><input type="text" id="p-schedule" required placeholder="e.g. Mon–Fri, 9 am – 5 pm ET"></div>
-          <div class="field"><label for="p-pay">Pay range</label><input type="text" id="p-pay" placeholder="e.g. $17–19/hr"></div>
+          <div class="field"><label for="p-schedule">Schedule *</label><input type="text" id="p-schedule" required placeholder="e.g. Mon to Fri, 9 am to 5 pm ET"></div>
+          <div class="field"><label for="p-pay">Pay range</label><input type="text" id="p-pay" placeholder="e.g. $17 to $19/hr"></div>
         </div>
         <div class="field"><label for="p-reqs">Requirements *</label>
           <textarea id="p-reqs" placeholder="One per line, e.g.&#10;English (fluent)&#10;Customer service&#10;Stable internet (25+ Mbps)"></textarea>
           <span class="hint">The AI compares each applicant against these requirements.</span></div>
         <div class="field"><label for="p-desc">Short description</label><textarea id="p-desc" style="min-height:70px"></textarea></div>
-        <div class="field"><label for="p-roleplay">Role-play scenario for applicants</label>
+        <div class="field"><label for="p-roleplay">Role play scenario for applicants</label>
           <select id="p-roleplay">${Object.entries(ROLEPLAY_LABELS).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select></div>
         <div class="form-actions"><a class="btn" href="#positions">Cancel</a><button type="submit" class="btn btn-primary">Publish position</button></div>
       </form>`;
@@ -136,7 +137,7 @@
 
       const p = Store.addPosition(data);
       highlightId = p.id;
-      toast('Position published. Candidates can apply now.', 'good');
+      toast('Your role is live. People can start applying now.', 'good');
       location.hash = 'positions';
     });
   }
@@ -160,7 +161,7 @@
     view.innerHTML = `
       <a href="#positions" class="small">← All positions</a>
       <div class="row between" style="margin:12px 0 16px">
-        <div><h2 style="margin:0">${esc(p.title)}</h2><div class="small muted">${esc(p.location)} · ${esc(p.schedule)}</div></div>
+        <div><h2 style="margin:0">${esc(p.title)}</h2><div class="small muted">${esc(p.location)}, ${esc(p.schedule)}</div></div>
         <div class="row"><span class="badge tone-good">${shortlist.length} approved</span><span class="badge">${inReview} in evaluation</span><span class="badge">Need ${esc(p.headcount)}</span></div>
       </div>
       <div class="stack">${shortlist.length ? shortlist.map((c, i) => shortlistCard(c, i + 1)).join('') :
@@ -174,16 +175,16 @@
         <div class="row" style="flex:1 1 280px;align-items:flex-start">
           ${avatar(c.name, 44)}
           <div class="grow">
-            <div class="row"><strong>#${rank} · ${esc(c.name)}</strong></div>
-            <div class="small muted">${esc(c.location || '')}${c.location ? ' · ' : ''}${c.timezone ? esc(c.timezone) + ' · ' : ''}${esc(c.experienceYears)} yrs experience · ${esc((c.languages || []).join(', '))} · Available ${esc((c.availability || '').toLowerCase())}</div>
-            <div class="ai-label" style="margin-top:10px">✦ AI summary</div>
+            <div class="row"><span class="badge c-${rank % 5}">#${rank}</span><strong>${esc(c.name)}</strong></div>
+            <div class="tags" style="margin-top:8px">${c.location ? tag('pin', 'coral', c.location) : ''}${c.timezone ? tag('clock', 'violet', c.timezone) : ''}${tag('people', 'sun', `${c.experienceYears} yrs experience`)}${tag('globe', 'sky', (c.languages || []).join(' and '))}</div>
+            <div class="ai-label" style="margin-top:12px">Quick summary</div>
             <ul class="ai-summary small">${c.ai.summary.map((l) => `<li>${esc(l)}</li>`).join('')}</ul>
             <div class="chips" style="margin-top:10px">${(c.ai.matched || []).map((r) => `<span class="chip ok">✓ ${esc(r)}</span>`).join('')}</div>
           </div>
         </div>
         <div style="flex:0 1 220px;min-width:200px" class="stack">
           <div class="row">${scoreRing(c.ai.score, 60)}<div><div class="small muted">Overall score</div><div class="small">Approved ${approvedAt ? esc(fmtDate(approvedAt)) : ''}</div></div></div>
-          <div>${scoreBar('CV match', c.ai.breakdown.cv)}${scoreBar('Communication', c.ai.breakdown.communication)}${scoreBar('Role-play', c.ai.breakdown.roleplay)}</div>
+          <div>${scoreBar('CV match', c.ai.breakdown.cv)}${scoreBar('Communication', c.ai.breakdown.communication)}${scoreBar('Role play', c.ai.breakdown.roleplay)}</div>
         </div>
       </div>
     </article>`;

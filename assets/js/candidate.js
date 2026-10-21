@@ -1,6 +1,6 @@
 /* Candidate portal: browse positions, apply (CV + voice note + role-play), track applications. */
 (function () {
-  const { $, $$, esc, fmtDate, timeAgo, stageBadge, tracker, toast } = window.UI;
+  const { $, $$, esc, fmtDate, timeAgo, colorIndex, tag, stageBadge, tracker, toast } = window.UI;
 
   const SAMPLE_PEOPLE = [
     { name: 'Alex Rivera', email: 'alex.rivera@example.com', phone: '(555) 410-2231', location: 'San Antonio, TX', timezone: 'Central (CT)' },
@@ -54,12 +54,13 @@
     $('#result-count').textContent = `${list.length} open position${list.length === 1 ? '' : 's'}`;
     $('#positions').innerHTML = list.length ? list.map((p) => {
       const client = Store.client(p.clientId);
-      return `<article class="card position-card">
-        <div class="row between"><span class="badge">${esc(p.category)}</span>${p.isNew ? '<span class="badge new">New</span>' : `<span class="small muted">${esc(timeAgo(p.createdAt))}</span>`}</div>
+      const ci = colorIndex(p.category);
+      return `<article class="card position-card c-${ci}">
+        <div class="row between"><span class="badge c-${ci}">${esc(p.category)}</span>${p.isNew ? '<span class="badge new">New</span>' : `<span class="small muted">${esc(timeAgo(p.createdAt))}</span>`}</div>
         <h3>${esc(p.title)}</h3>
-        <div class="small muted">${esc(client ? client.name : '')}</div>
-        <div class="meta"><span>🌎 ${esc(p.location)}</span><span>🕒 ${esc(p.type)}</span>${p.pay ? `<span>💵 ${esc(p.pay)}</span>` : ''}<span>👥 Hiring ${esc(p.headcount)}</span></div>
-        <div class="small muted">${esc(p.schedule)}</div>
+        <div class="company">${esc(client ? client.name : '')}</div>
+        <div class="tags">${tag('globe', 'sky', p.location)}${tag('clock', 'violet', p.type)}${p.pay ? tag('money', 'mint', p.pay) : ''}${tag('people', 'sun', `Hiring ${p.headcount}`)}</div>
+        <div class="schedule">${esc(p.schedule)}</div>
         <div class="chips">${p.requirements.slice(0, 4).map((r) => `<span class="chip">${esc(r)}</span>`).join('')}</div>
         <div class="actions">${applied.has(p.id)
           ? '<span class="badge tone-good">✓ Applied</span><a class="btn btn-sm" href="#applications">View status</a>'
@@ -91,14 +92,14 @@
       <div class="card" style="margin-top:12px">
         <div class="row between" style="align-items:flex-start">
           <div><h2 style="margin-bottom:4px">${esc(p.title)}</h2>
-            <div class="meta"><span>🌎 ${esc(p.location)}</span><span>🕒 ${esc(p.type)} · ${esc(p.schedule)}</span>${p.pay ? `<span>💵 ${esc(p.pay)}</span>` : ''}</div></div>
+            <div class="tags">${tag('globe', 'sky', p.location)}${tag('clock', 'violet', `${p.type}, ${p.schedule}`)}${p.pay ? tag('money', 'mint', p.pay) : ''}</div></div>
           <button type="button" class="btn btn-sm" id="fill-sample">⚡ Fill sample</button>
         </div>
         ${p.description ? `<p class="muted" style="margin:12px 0 0">${esc(p.description)}</p>` : ''}
       </div>
 
       <form class="form card" id="apply-form" novalidate style="margin-top:16px">
-        <h3>1. Your details</h3>
+        <h3><span class="num">1</span>About you</h3>
         <div class="form-grid">
           <div class="field"><label for="a-name">Full name *</label><input type="text" id="a-name" required autocomplete="name"></div>
           <div class="field"><label for="a-email">Email *</label><input type="email" id="a-email" required autocomplete="email"></div>
@@ -107,7 +108,7 @@
           <div class="field"><label for="a-timezone">Your time zone</label>
             <select id="a-timezone">${window.MOCK.TIMEZONES.concat('Other (Americas)').map((t) => `<option>${esc(t)}</option>`).join('')}</select></div>
           <div class="field"><label for="a-exp">Years of relevant experience</label>
-            <select id="a-exp">${Array.from({ length: 11 }, (_, i) => `<option value="${i}">${i === 0 ? 'None / entry-level' : i === 10 ? '10+' : i}</option>`).join('')}</select></div>
+            <select id="a-exp">${Array.from({ length: 11 }, (_, i) => `<option value="${i}">${i === 0 ? 'None yet' : i === 10 ? '10+' : i}</option>`).join('')}</select></div>
           <div class="field"><label for="a-english">English level</label>
             <select id="a-english"><option>Native</option><option selected>Fluent</option><option>Conversational</option><option>Basic</option></select></div>
           <div class="field"><label for="a-avail">Availability</label>
@@ -116,18 +117,18 @@
             <div class="check-group"><label class="check"><input type="checkbox" name="lang" value="English" checked> English</label><label class="check"><input type="checkbox" name="lang" value="Spanish"> Spanish</label></div></div>
         </div>
 
-        <div class="field"><span class="label">Which of these requirements do you meet? <span class="muted" style="font-weight:400">(includes your remote work setup)</span></span>
+        <div class="field"><span class="label">Which of these do you have? <span class="muted" style="font-weight:500">(your home setup counts too)</span></span>
           <div class="check-group">${p.requirements.map((r) => `<label class="check"><input type="checkbox" name="req" value="${esc(r)}"> ${esc(r)}</label>`).join('')}</div></div>
 
-        <h3>2. CV</h3>
+        <h3><span class="num">2</span>Your resume</h3>
         <div class="file-drop">
           <label class="btn btn-sm" for="a-cv">Choose file</label>
           <input type="file" id="a-cv" accept=".pdf,.doc,.docx,.txt" class="sr-only">
-          <span id="cv-name" class="small muted">PDF or Word. Only the file name is kept in this demo.</span>
+          <span id="cv-name" class="small muted">PDF or Word. In this demo we only keep the file name.</span>
         </div>
 
-        <h3>3. Voice note <span class="small muted" style="font-weight:400">(up to 60 seconds)</span></h3>
-        <p class="small muted" style="margin:-8px 0 0">Introduce yourself: who you are, your experience and why you want this job.</p>
+        <h3><span class="num">3</span>Say hi with a voice note <span class="small muted" style="font-weight:500">(up to 60 seconds)</span></h3>
+        <p class="small muted" style="margin:-8px 0 0">Tell us who you are, what you have done and why this job caught your eye.</p>
         <div class="file-drop" style="display:grid;gap:12px">
           <div class="recorder" id="recorder">
             ${canRecord ? '<button type="button" class="btn btn-sm" id="rec-btn">🎙️ Record</button>' : '<span class="small muted">Recording is not supported in this browser.</span>'}
@@ -138,11 +139,11 @@
           <div id="voice-status" class="small muted">No voice note yet.</div>
         </div>
 
-        <h3>4. Quick role-play</h3>
+        <h3><span class="num">4</span>A quick scenario</h3>
         <div class="field"><label for="a-roleplay">${esc(p.roleplayPrompt || 'How would you handle an upset customer?')}</label>
-          <textarea id="a-roleplay" placeholder="Write what you would say or do (2–4 sentences)."></textarea></div>
+          <textarea id="a-roleplay" placeholder="Write what you would say or do (2 to 4 sentences)."></textarea></div>
 
-        <label class="check" style="border-radius:var(--radius-sm)"><input type="checkbox" id="a-consent" checked> I agree that my application is reviewed with the help of AI and by a recruiter.</label>
+        <label class="check" style="border-radius:var(--radius-sm)"><input type="checkbox" id="a-consent" checked> I'm okay with my application being reviewed by a recruiter with the help of AI.</label>
 
         <div class="form-actions">
           <a class="btn" href="#positions">Cancel</a>
@@ -235,7 +236,7 @@
     $('#a-roleplay').value = SAMPLE_ANSWER;
     setCv(person.name.toLowerCase().replace(' ', '_') + '_resume.pdf');
     if (!voiceNote) { voiceNote = { fileName: 'sample_voice_note.webm', duration: 38, recorded: false }; paintVoice(); }
-    toast('Sample data filled. Review and submit.');
+    toast('Sample answers added. Take a look and hit submit.');
   }
 
   function submit(p) {
@@ -266,9 +267,9 @@
     $('#view-apply').innerHTML = `
       <div class="card stack" style="max-width:720px;margin:0 auto;text-align:center">
         <div style="font-size:2.4rem">✅</div>
-        <h2>Application sent!</h2>
-        <p class="muted">Thanks, ${esc(name.split(' ')[0])}. Your application for <strong>${esc(p.title)}</strong> is being reviewed.
-          You can follow every step here.</p>
+        <h2>You're in! 🎉</h2>
+        <p class="muted">Thanks, ${esc(name.split(' ')[0])}. We got your application for <strong>${esc(p.title)}</strong> and we're already looking at it.
+          You can follow every step right here.</p>
         ${tracker(candidate, p.stages)}
         <div class="row" style="justify-content:center"><a class="btn btn-primary" href="#applications">Track my applications</a><a class="btn" href="#positions">See more positions</a></div>
       </div>`;
@@ -283,7 +284,7 @@
       const last = c.history[c.history.length - 1];
       return `<article class="card stack">
         <div class="row between">
-          <div><h3 style="margin:0">${esc(p.title)}</h3><div class="small muted">Applied ${esc(fmtDate(c.appliedAt))} · Last update ${esc(timeAgo(last.at))}</div></div>
+          <div><h3 style="margin:0">${esc(p.title)}</h3><div class="small muted">Applied ${esc(fmtDate(c.appliedAt))}, updated ${esc(timeAgo(last.at))}</div></div>
           ${stageBadge(c.stage)}
         </div>
         ${tracker(c, p.stages)}
@@ -294,16 +295,20 @@
 
   function statusMessage(c) {
     return {
-      applied: 'We received your application. Our AI-assisted screening is reviewing it now.',
-      screened: 'Your profile passed the initial screening. A recruiter will contact you about next steps.',
-      roleplay: 'You have been invited to a short online role-play exercise. Check your email for the link.',
+      applied: 'We got your application and we are reviewing it right now.',
+      screened: 'Good news, your profile passed the first review. A recruiter will reach out soon.',
+      roleplay: 'You are invited to a short online role play. Check your email for the link.',
       interview: 'Interview stage: a recruiter will schedule a video call with you.',
       approved: '🎉 Congratulations! You have been approved and shared with the hiring company.',
-      declined: 'Thank you for applying. We will keep your profile in our talent pool for future roles.',
+      declined: 'Thanks for applying. This one did not work out, but we will keep you in mind for future roles.',
     }[c.stage] || '';
   }
 
-  function updateCount() { $('#my-count').textContent = Store.myApplications().length; }
+  function updateCount() {
+    const n = Store.myApplications().length;
+    $('#my-count').textContent = n;
+    $('#my-count').classList.toggle('zero', !n);
+  }
 
   // Re-render when another tab (e.g. the admin dashboard) changes the data.
   Store.subscribe(() => {

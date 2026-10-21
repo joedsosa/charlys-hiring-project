@@ -9,7 +9,7 @@
   const STAGES = [
     { id: 'applied', label: 'Applied' },
     { id: 'screened', label: 'AI Screened' },
-    { id: 'roleplay', label: 'Role-play' },
+    { id: 'roleplay', label: 'Role play' },
     { id: 'interview', label: 'Interview' },
     { id: 'approved', label: 'Approved', terminal: true },
     { id: 'declined', label: 'Declined', terminal: true },
@@ -25,7 +25,7 @@
   const SOURCES = ['Job boards', 'Social media', 'Referral', 'Career site', 'Virtual job fair', 'Talent pool'];
 
   // Every role is remote. Regions say where candidates may live; schedules say which hours they cover.
-  const REGIONS = ['Remote · US', 'Remote · Americas'];
+  const REGIONS = ['Remote (US)', 'Remote (Americas)'];
   const TIMEZONES = ['Eastern (ET)', 'Central (CT)', 'Mountain (MT)', 'Pacific (PT)'];
 
   const ROLEPLAY_PROMPTS = {
@@ -39,55 +39,55 @@
   const POSITIONS = [
     {
       id: 'pos-csr', clientId: 'cl-fabrikam', title: 'Bilingual Customer Support Representative',
-      category: 'Customer support', location: 'Remote · US', type: 'Full-time',
-      schedule: 'Mon–Fri, 9:00 am – 5:30 pm CT', headcount: 25, pay: '$18–20/hr',
+      category: 'Customer support', location: 'Remote (US)', type: 'Full time',
+      schedule: 'Mon to Fri, 9:00 am to 5:30 pm CT', headcount: 25, pay: '$18 to $20/hr',
       requirements: ['English (fluent)', 'Spanish (conversational)', 'Customer service', 'CRM tools', 'Stable internet (25+ Mbps)'],
       description: 'Answer inbound calls and chats from home, resolve order issues and keep customers happy.',
       roleplay: 'support', daysAgo: 45,
     },
     {
       id: 'pos-sales', clientId: 'cl-fabrikam', title: 'Inbound Sales Agent',
-      category: 'Sales', location: 'Remote · US', type: 'Full-time',
-      schedule: 'Mon–Fri, 10:00 am – 6:30 pm ET', headcount: 12, pay: '$17/hr + commission',
+      category: 'Sales', location: 'Remote (US)', type: 'Full time',
+      schedule: 'Mon to Fri, 10:00 am to 6:30 pm ET', headcount: 12, pay: '$17/hr + commission',
       requirements: ['English (fluent)', 'Sales experience', 'CRM tools', 'Objection handling', 'Quiet home office'],
       description: 'Turn inbound leads into customers over phone and video calls.',
       roleplay: 'sales', daysAgo: 40,
     },
     {
       id: 'pos-tech', clientId: 'cl-contoso', title: 'Technical Support Specialist (Tier 1)',
-      category: 'IT support', location: 'Remote · US', type: 'Full-time',
-      schedule: 'Rotating shifts, 24/7 coverage', headcount: 15, pay: '$19–22/hr',
+      category: 'IT support', location: 'Remote (US)', type: 'Full time',
+      schedule: 'Rotating shifts, 24/7 coverage', headcount: 15, pay: '$19 to $22/hr',
       requirements: ['Troubleshooting', 'Ticketing systems', 'English (fluent)', 'Typing 40+ wpm', 'Own computer'],
       description: 'Help customers solve login, setup and connectivity issues through chat, email and phone.',
       roleplay: 'techsupport', daysAgo: 35,
     },
     {
       id: 'pos-dispatch', clientId: 'cl-contoso', title: 'Remote Dispatch Coordinator',
-      category: 'Operations', location: 'Remote · Americas', type: 'Full-time',
-      schedule: 'Mon–Sat, 7:00 am – 3:30 pm CT', headcount: 10, pay: '$17–19/hr',
+      category: 'Operations', location: 'Remote (Americas)', type: 'Full time',
+      schedule: 'Mon to Sat, 7:00 am to 3:30 pm CT', headcount: 10, pay: '$17 to $19/hr',
       requirements: ['Route planning', 'Customer service', 'Time management', 'Multitasking', 'Stable internet (25+ Mbps)'],
       description: 'Coordinate drivers and deliveries in real time from a home office.',
       roleplay: 'dispatch', daysAgo: 30,
     },
     {
-      id: 'pos-chat', clientId: 'cl-northwind', title: 'E-commerce Chat Support Agent',
-      category: 'Customer support', location: 'Remote · Americas', type: 'Part-time',
-      schedule: 'Weekends + 2 evenings, ET hours', headcount: 30, pay: '$15–17/hr',
+      id: 'pos-chat', clientId: 'cl-northwind', title: 'Ecommerce Chat Support Agent',
+      category: 'Customer support', location: 'Remote (Americas)', type: 'Part time',
+      schedule: 'Weekends + 2 evenings, ET hours', headcount: 30, pay: '$15 to $17/hr',
       requirements: ['English (fluent)', 'Written communication', 'Customer service', 'Typing 50+ wpm', 'Own computer'],
       description: 'Answer online shoppers through live chat and email for a growing online store.',
       roleplay: 'support', daysAgo: 25,
     },
     {
       id: 'pos-appt', clientId: 'cl-northwind', title: 'Appointment Setter',
-      category: 'Sales', location: 'Remote · US', type: 'Full-time',
-      schedule: 'Mon–Fri, 9:00 am – 5:00 pm PT', headcount: 8, pay: '$16/hr + bonus',
+      category: 'Sales', location: 'Remote (US)', type: 'Full time',
+      schedule: 'Mon to Fri, 9:00 am to 5:00 pm PT', headcount: 8, pay: '$16/hr + bonus',
       requirements: ['English (fluent)', 'Cold calling', 'CRM tools', 'Goal oriented', 'Quiet home office'],
       description: 'Call warm leads and book meetings for the sales team.',
       roleplay: 'sales', daysAgo: 20,
     },
     {
       id: 'pos-data', clientId: 'cl-fabrikam', title: 'Data Entry Specialist',
-      category: 'Administrative', location: 'Remote · Americas', type: 'Contract',
+      category: 'Administrative', location: 'Remote (Americas)', type: 'Contract',
       schedule: 'Flexible, 30 h/week', headcount: 10, pay: '$15/hr',
       requirements: ['Typing 50+ wpm', 'Excel', 'Attention to detail', 'Data privacy', 'Own computer'],
       description: 'Enter and verify records accurately for a remote back-office team.',
@@ -95,8 +95,8 @@
     },
     {
       id: 'pos-va', clientId: 'cl-northwind', title: 'Virtual Assistant',
-      category: 'Administrative', location: 'Remote · Americas', type: 'Full-time',
-      schedule: 'Mon–Fri, 8:00 am – 4:30 pm ET', headcount: 6, pay: '$16–18/hr',
+      category: 'Administrative', location: 'Remote (Americas)', type: 'Full time',
+      schedule: 'Mon to Fri, 8:00 am to 4:30 pm ET', headcount: 6, pay: '$16 to $18/hr',
       requirements: ['English (fluent)', 'Calendar management', 'Google Workspace', 'Written communication', 'Time management'],
       description: 'Support managers with email, scheduling, research and documents.',
       roleplay: 'assistant', daysAgo: 15,
@@ -187,7 +187,7 @@
         name,
         email: `${first}.${last}@example.com`,
         phone: `(555) ${String(200 + i * 7).slice(-3)}-${String(1000 + i * 137).slice(-4)}`,
-        location: pick(position.location === 'Remote · US' ? US_CITIES : AMERICAS_CITIES),
+        location: pick(position.location === 'Remote (US)' ? US_CITIES : AMERICAS_CITIES),
         timezone: pick(TIMEZONES),
         positionId: position.id,
         source: pick(SOURCES),

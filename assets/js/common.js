@@ -35,12 +35,12 @@
   function renderLayout() {
     const page = document.body.dataset.page;
     const pageTitle = document.body.dataset.title;
-    document.title = pageTitle ? `${pageTitle} · ${CFG.brand}` : `${CFG.brand} · ${CFG.tagline}`;
+    document.title = pageTitle ? `${pageTitle} | ${CFG.brand}` : CFG.brand;
     $$('[data-brand]').forEach((el) => { el.textContent = CFG.brand; });
 
     const banner = document.createElement('div');
     banner.className = 'demo-banner';
-    banner.innerHTML = `<span><strong>Prototype</strong> · All companies, people and data are fictional demo data.</span>
+    banner.innerHTML = `<span><strong>Prototype.</strong> Every company, person and number here is sample data.</span>
       <button type="button" class="link-btn" data-reset>Reset demo data</button>`;
 
     const header = document.createElement('header');
@@ -96,6 +96,22 @@
   function avatar(name, size) {
     let h = 0; for (const ch of String(name)) h = (h * 31 + ch.charCodeAt(0)) % 360;
     return `<span class="avatar" style="--h:${h};${size ? `--size:${size}px` : ''}" aria-hidden="true">${esc(initials(name))}</span>`;
+  }
+
+  // Stable color slot (0 to 4) for a piece of text, so categories always get the same color.
+  function colorIndex(text) {
+    let h = 0; for (const ch of String(text)) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+    return h % 5;
+  }
+  const TAG_ICONS = {
+    globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/>',
+    clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    money: '<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/>',
+    people: '<circle cx="9" cy="9" r="3.2"/><path d="M3.5 19c.6-3 2.8-4.6 5.5-4.6s4.9 1.6 5.5 4.6"/><path d="M16 6.3a3 3 0 0 1 0 5.6M18 14.6c1.4.6 2.3 2 2.6 4.4"/>',
+    pin: '<path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>',
+  };
+  function tag(icon, color, text) {
+    return `<span class="tag ${color}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${TAG_ICONS[icon]}</svg>${esc(text)}</span>`;
   }
 
   function stageLabel(id) { return STAGE_LABELS[id] || id; }
@@ -168,7 +184,7 @@
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrawer(); });
 
   window.UI = {
-    $, $$, esc, fmtDate, timeAgo, avatar, initials, stageLabel, stageBadge,
+    $, $$, esc, fmtDate, timeAgo, avatar, initials, colorIndex, tag, stageLabel, stageBadge,
     scoreTone, scoreRing, scoreBar, tracker, toast, openDrawer, closeDrawer, setTheme, currentTheme,
   };
 

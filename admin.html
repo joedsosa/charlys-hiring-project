@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Admin dashboard</title>
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="assets/css/styles.css">
   <script>
     try { var t = localStorage.getItem('hireflow-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); document.documentElement.setAttribute('data-theme', t); } catch (e) {}
@@ -13,13 +16,13 @@
 <body data-page="admin" data-title="Admin dashboard">
   <main class="container">
     <div class="page-head">
-      <h1>Admin dashboard</h1>
-      <p>Every remote applicant is screened by AI as soon as they apply. Review the score and summary, then approve or decline.</p>
+      <h1>Recruiting dashboard</h1>
+      <p>New applicants get reviewed and scored the moment they apply. Read the summary, listen to what they said and decide who moves forward.</p>
     </div>
 
     <div class="tabs" role="tablist">
       <button class="tab" role="tab" data-view="overview" aria-selected="true">Overview</button>
-      <button class="tab" role="tab" data-view="pipeline" aria-selected="false">Pipeline <span class="count" id="new-count">0</span></button>
+      <button class="tab" role="tab" data-view="pipeline" aria-selected="false">Board <span class="count" id="new-count">0</span></button>
     </div>
 
     <section id="view-overview"></section>
@@ -30,7 +33,7 @@
         <select id="k-position" aria-label="Position"><option value="">All positions</option></select>
       </div>
       <div class="kanban" id="kanban"></div>
-      <p class="small muted">Tip: drag cards between columns on desktop, or open a candidate to move them.</p>
+      <p class="small muted">Tip: drag cards between columns, or open someone to move them along.</p>
     </section>
   </main>
 

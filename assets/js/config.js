@@ -4,7 +4,7 @@
  */
 window.APP_CONFIG = {
   brand: "Charly's Hiring Project",
-  tagline: 'AI-assisted mass hiring for remote teams.',
+  tagline: 'Hiring for remote teams, made simple.',
   author: 'Joed Sosa',
   authorRole: 'Software Engineer',
   // Bump the version suffix to force every browser to re-seed the demo data.

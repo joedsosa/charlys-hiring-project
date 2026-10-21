@@ -3,9 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Prototype of an AI-assisted mass hiring platform for remote teams: candidate, client and admin portals.">
+  <meta name="description" content="Prototype of a hiring platform for remote teams, with candidate, client and admin portals.">
   <title>Hiring platform prototype</title>
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="assets/css/styles.css">
   <script>
     try { var t = localStorage.getItem('hireflow-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); document.documentElement.setAttribute('data-theme', t); } catch (e) {}
@@ -14,20 +17,21 @@
 <body data-page="home">
   <main>
     <section class="hero">
+      <span class="blob" aria-hidden="true"></span>
       <div class="container hero-grid">
         <div>
-          <span class="eyebrow">Remote mass hiring, powered by AI</span>
-          <h1>Build remote teams at scale. Approve the right people in minutes.</h1>
-          <p class="lead"><span data-brand></span> lets candidates apply from anywhere with a CV, a voice note and a short role-play,
-            scores every applicant with AI and gives your team a clear pipeline to approve, decline and deliver shortlists of remote talent to clients.</p>
+          <span class="eyebrow">🌎 Built for remote teams</span>
+          <h1>Hire great remote people, <span class="marker">by the hundreds.</span></h1>
+          <p class="lead">Candidates apply from their phone in a few minutes. Every application gets reviewed and scored
+            right away, so your team spends its time talking to the best people instead of reading piles of resumes.</p>
           <div class="hero-actions">
-            <a class="btn btn-primary btn-lg" href="#demo">Run the 2-minute demo</a>
-            <a class="btn btn-lg" href="admin.html">Open admin dashboard</a>
+            <a class="btn btn-primary btn-lg" href="#demo">See how it works</a>
+            <a class="btn btn-lg" href="admin.html">Open the dashboard</a>
           </div>
           <div class="stats">
-            <div class="stat"><strong data-stat="positions">–</strong><span>open remote roles</span></div>
-            <div class="stat"><strong data-stat="candidates">–</strong><span>candidates in pipeline</span></div>
-            <div class="stat"><strong data-stat="score">–</strong><span>avg. AI score</span></div>
+            <div class="stat"><strong data-stat="positions">0</strong><span>remote roles open</span></div>
+            <div class="stat"><strong data-stat="candidates">0</strong><span>people applying</span></div>
+            <div class="stat"><strong data-stat="score">0</strong><span>average score</span></div>
           </div>
         </div>
         <div class="hero-preview" aria-hidden="true" id="hero-preview"></div>
@@ -37,14 +41,14 @@
     <section class="section">
       <div class="container">
         <div class="section-head">
-          <h2>How it works</h2>
-          <p>One fully online flow for every remote role, configured per position by your team.</p>
+          <h2>From job post to new hire, all online</h2>
+          <p>No paperwork and no endless phone screens. Just a simple flow that works for every remote role.</p>
         </div>
         <div class="steps">
-          <div class="card step"><h3>Client posts a role</h3><p class="muted">Title, requirements, time zone coverage and how many people they need.</p></div>
-          <div class="card step"><h3>Candidates apply</h3><p class="muted">From anywhere, on any phone: basic info, CV, remote setup and a short voice note.</p></div>
-          <div class="card step"><h3>AI screens everyone</h3><p class="muted">Each applicant gets a score, a 3-line summary and a voice transcript, so communication skills are checked before any call.</p></div>
-          <div class="card step"><h3>Admins decide</h3><p class="muted">Approve or decline from a kanban pipeline. Approved candidates reach the client's shortlist.</p></div>
+          <div class="card step"><span class="step-num">1</span><h3>The client posts a role</h3><p>What the job needs, the hours to cover and how many people to hire.</p></div>
+          <div class="card step"><span class="step-num">2</span><h3>People apply from anywhere</h3><p>A few details, their resume and a short voice message recorded right on their phone.</p></div>
+          <div class="card step"><span class="step-num">3</span><h3>Everyone gets scored</h3><p>Each applicant gets a score and a quick summary, and you can read what they said in their voice note.</p></div>
+          <div class="card step"><span class="step-num">4</span><h3>Your team picks the best</h3><p>Approve the right people in one click and they land on the client's shortlist.</p></div>
         </div>
       </div>
     </section>
@@ -52,27 +56,27 @@
     <section class="section">
       <div class="container">
         <div class="section-head">
-          <h2>Three portals, one platform</h2>
-          <p>Each profile sees exactly what it needs.</p>
+          <h2>One place for everyone</h2>
+          <p>Candidates, clients and your recruiting team each get their own space.</p>
         </div>
         <div class="grid grid-3">
-          <article class="card portal-card">
-            <div class="icon-tile"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div>
-            <h3>Candidates</h3>
-            <ul><li>Browse and filter remote positions</li><li>Apply with CV and a voice note</li><li>Track application status by stage</li></ul>
-            <a class="btn" href="candidate.html">Open candidate portal</a>
+          <article class="card portal-card p-coral">
+            <div class="icon-tile"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div>
+            <h3>For candidates</h3>
+            <p>Find a remote job, apply in minutes with a voice note and always know where your application stands.</p>
+            <a class="btn" href="candidate.html">Browse jobs</a>
           </article>
-          <article class="card portal-card">
-            <div class="icon-tile"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
-            <h3>Clients</h3>
-            <ul><li>Post remote roles and headcount</li><li>See an AI-ranked shortlist</li><li>Read summaries, not stacks of CVs</li></ul>
-            <a class="btn" href="client.html">Open client portal</a>
+          <article class="card portal-card p-mint">
+            <div class="icon-tile"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
+            <h3>For clients</h3>
+            <p>Post the roles you need to fill and get a ranked shortlist with a short summary of every person.</p>
+            <a class="btn" href="client.html">Post a role</a>
           </article>
-          <article class="card portal-card">
-            <div class="icon-tile"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div>
-            <h3>Admins</h3>
-            <ul><li>KPIs and hiring funnel</li><li>Kanban pipeline with AI scores</li><li>Approve or decline in one click</li></ul>
-            <a class="btn" href="admin.html">Open admin dashboard</a>
+          <article class="card portal-card p-violet">
+            <div class="icon-tile"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div>
+            <h3>For your team</h3>
+            <p>See every applicant on one board, check the numbers that matter and approve people in one click.</p>
+            <a class="btn" href="admin.html">Open dashboard</a>
           </article>
         </div>
       </div>
@@ -80,17 +84,17 @@
 
     <section class="section" id="demo">
       <div class="container">
-        <div class="section-head">
-          <h2>Try the full flow in under 2 minutes</h2>
-          <p>Tip: open the admin dashboard in a second tab. New applications appear there live.</p>
+        <div class="demo-box">
+          <h2>Try the whole thing in 2 minutes</h2>
+          <p>Tip: keep the dashboard open in another tab and watch new applications show up live.</p>
+          <ol class="demo-script">
+            <li><span class="n">1</span><span><strong>Post a role</strong> as a client. The “Fill sample” button fills the form for you.</span><a class="btn btn-sm btn-light" href="client.html#post">Post a role</a></li>
+            <li><span class="n">2</span><span><strong>Apply to it</strong> as a candidate, with a resume and a voice note.</span><a class="btn btn-sm btn-light" href="candidate.html">Apply</a></li>
+            <li><span class="n">3</span><span><strong>Watch the review happen</strong> on the dashboard and see the score and summary appear.</span><a class="btn btn-sm btn-light" href="admin.html#pipeline">Dashboard</a></li>
+            <li><span class="n">4</span><span><strong>Approve the candidate</strong> from their profile.</span><a class="btn btn-sm btn-light" href="admin.html#pipeline">Dashboard</a></li>
+            <li><span class="n">5</span><span><strong>Check the result</strong> on the client's shortlist and the candidate's status page.</span><a class="btn btn-sm btn-light" href="client.html">Shortlist</a></li>
+          </ol>
         </div>
-        <ol class="demo-script">
-          <li><span><strong>Post a position</strong> as a client. Use “Fill sample” to go fast.</span><a class="btn btn-sm" href="client.html#post">Client portal</a></li>
-          <li><span><strong>Apply</strong> to that position as a candidate, with a CV and a voice note.</span><a class="btn btn-sm" href="candidate.html">Candidate portal</a></li>
-          <li><span><strong>Watch the AI analysis</strong> run on the new applicant, then review the score and summary.</span><a class="btn btn-sm" href="admin.html#pipeline">Admin pipeline</a></li>
-          <li><span><strong>Approve</strong> the candidate from the detail panel.</span><a class="btn btn-sm" href="admin.html#pipeline">Admin pipeline</a></li>
-          <li><span><strong>See the result</strong>: the client shortlist and the candidate's tracker are updated.</span><a class="btn btn-sm" href="client.html">Client shortlist</a></li>
-        </ol>
       </div>
     </section>
   </main>
