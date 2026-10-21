@@ -111,7 +111,7 @@
     pin: '<path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>',
   };
   function tag(icon, color, text) {
-    return `<span class="tag ${color}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${TAG_ICONS[icon]}</svg>${esc(text)}</span>`;
+    return `<span class="tag ${color}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${TAG_ICONS[icon]}</svg>${esc(text)}</span>`;
   }
 
   function stageLabel(id) { return STAGE_LABELS[id] || id; }
